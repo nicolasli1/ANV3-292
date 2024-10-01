@@ -1,0 +1,25 @@
+{
+    "name": "ANV3-229",
+    "dockerFile": "Dockerfile", 
+    "customizations": {
+        "vscode": {
+            "extensions": [
+              "dbaeumer.vscode-eslint",
+              "eamodio.gitlens",
+              "esbenp.prettier-vscode",
+              "syler.sass-indented",
+              "stylelint.vscode-stylelint",
+              "rangav.vscode-thunder-client",
+              "ms-python.python",
+              "mikoz.black-py"
+            ],
+            "settings": {
+                "extensions.verifySignature": false,
+                "python.pythonPath": "/usr/local/bin/python3",
+                "python.analysis.extraPaths": [
+                    "/usr/local/lib/python3.9/site-packages"
+                ]
+            }
+        }
+    }
+  }
