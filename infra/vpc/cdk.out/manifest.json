@@ -1,29 +1,29 @@
 {
   "version": "38.0.1",
   "artifacts": {
-    "vpc.assets": {
+    "ec2-instance.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "vpc.assets.json",
+        "file": "ec2-instance.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "vpc": {
+    "ec2-instance": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "vpc.template.json",
+        "templateFile": "ec2-instance.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "notificationArns": [],
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dd0e05faddc58e18b0975fcc4af286b3cff826b031a0f21906a539d01d25d880.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/136076163eac75d20de8e14c4796b15a5862a3f06e5ddfe3a63b82a4a12939e9.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "vpc.assets"
+          "ec2-instance.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -32,101 +32,131 @@
         }
       },
       "dependencies": [
-        "vpc.assets"
+        "ec2-instance.assets"
       ],
       "metadata": {
-        "/vpc/MyVpcClass/Resource": [
+        "/ec2-instance/MyVpcTalle1/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClass5655AE22"
+            "data": "MyVpcTalle1B91D185D"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet1/Subnet": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet1Subnet2D9101B9"
+            "data": "MyVpcTalle1PublicSubnetSubnet1Subnet83C43D4B"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet1/RouteTable": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet1RouteTableC6D14FDE"
+            "data": "MyVpcTalle1PublicSubnetSubnet1RouteTableC6438AF4"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet1/RouteTableAssociation": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet1RouteTableAssociationE39389D6"
+            "data": "MyVpcTalle1PublicSubnetSubnet1RouteTableAssociation6403364E"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet1/DefaultRoute": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet1DefaultRoute279D7E98"
+            "data": "MyVpcTalle1PublicSubnetSubnet1DefaultRoute734D9020"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet2/Subnet": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/Subnet": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet2Subnet2204C061"
+            "data": "MyVpcTalle1PublicSubnetSubnet2SubnetFE404E83"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet2/RouteTable": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet2RouteTable48DA6E49"
+            "data": "MyVpcTalle1PublicSubnetSubnet2RouteTable3CECE1F1"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet2/RouteTableAssociation": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet2RouteTableAssociationB86A72B9"
+            "data": "MyVpcTalle1PublicSubnetSubnet2RouteTableAssociation356C786B"
           }
         ],
-        "/vpc/MyVpcClass/PublicSubnetSubnet2/DefaultRoute": [
+        "/ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassPublicSubnetSubnet2DefaultRoute3FC189EE"
+            "data": "MyVpcTalle1PublicSubnetSubnet2DefaultRouteA699A846"
           }
         ],
-        "/vpc/MyVpcClass/IGW": [
+        "/ec2-instance/MyVpcTalle1/IGW": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassIGWFDA7A303"
+            "data": "MyVpcTalle1IGWBB25BF18"
           }
         ],
-        "/vpc/MyVpcClass/VPCGW": [
+        "/ec2-instance/MyVpcTalle1/VPCGW": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyVpcClassVPCGW7780FBAA"
+            "data": "MyVpcTalle1VPCGW5343498E"
           }
         ],
-        "/vpc/CDKMetadata/Default": [
+        "/ec2-instance/InstanceSSM/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceSSMCBFA3CF0"
+          }
+        ],
+        "/ec2-instance/Instance/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceSecurityGroupF0E2D5BE"
+          }
+        ],
+        "/ec2-instance/Instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceProfileAB5AEF02"
+          }
+        ],
+        "/ec2-instance/Instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceC1063A87"
+          }
+        ],
+        "/ec2-instance/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/ec2-instance/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/vpc/CDKMetadata/Condition": [
+        "/ec2-instance/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/vpc/BootstrapVersion": [
+        "/ec2-instance/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/vpc/CheckBootstrapVersion": [
+        "/ec2-instance/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "vpc"
+      "displayName": "ec2-instance"
     },
     "Tree": {
       "type": "cdk:tree",

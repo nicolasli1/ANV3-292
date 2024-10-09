@@ -10,12 +10,12 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1"
+      "Value": "ec2-instance/MyVpcTalle1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/Resource"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/Resource"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet1Subnet83C43D4B": {
@@ -42,7 +42,7 @@
      },
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1/PublicSubnetSubnet1"
+      "Value": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1"
      }
     ],
     "VpcId": {
@@ -50,7 +50,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet1/Subnet"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/Subnet"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet1RouteTableC6438AF4": {
@@ -59,7 +59,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1/PublicSubnetSubnet1"
+      "Value": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1"
      }
     ],
     "VpcId": {
@@ -67,7 +67,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet1/RouteTable"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/RouteTable"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet1RouteTableAssociation6403364E": {
@@ -81,7 +81,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet1/RouteTableAssociation"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/RouteTableAssociation"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet1DefaultRoute734D9020": {
@@ -99,7 +99,7 @@
     "MyVpcTalle1VPCGW5343498E"
    ],
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet1/DefaultRoute"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet1/DefaultRoute"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet2SubnetFE404E83": {
@@ -126,7 +126,7 @@
      },
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1/PublicSubnetSubnet2"
+      "Value": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2"
      }
     ],
     "VpcId": {
@@ -134,7 +134,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet2/Subnet"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/Subnet"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet2RouteTable3CECE1F1": {
@@ -143,7 +143,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1/PublicSubnetSubnet2"
+      "Value": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2"
      }
     ],
     "VpcId": {
@@ -151,7 +151,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet2/RouteTable"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/RouteTable"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet2RouteTableAssociation356C786B": {
@@ -165,7 +165,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet2/RouteTableAssociation"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/RouteTableAssociation"
    }
   },
   "MyVpcTalle1PublicSubnetSubnet2DefaultRouteA699A846": {
@@ -183,7 +183,7 @@
     "MyVpcTalle1VPCGW5343498E"
    ],
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/PublicSubnetSubnet2/DefaultRoute"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/PublicSubnetSubnet2/DefaultRoute"
    }
   },
   "MyVpcTalle1IGWBB25BF18": {
@@ -192,12 +192,12 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/MyVpcTalle1"
+      "Value": "ec2-instance/MyVpcTalle1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/IGW"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/IGW"
    }
   },
   "MyVpcTalle1VPCGW5343498E": {
@@ -211,7 +211,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/MyVpcTalle1/VPCGW"
+    "aws:cdk:path": "ec2-instance/MyVpcTalle1/VPCGW"
    }
   },
   "InstanceSSMCBFA3CF0": {
@@ -245,13 +245,13 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/InstanceSSM/Resource"
+    "aws:cdk:path": "ec2-instance/InstanceSSM/Resource"
    }
   },
   "InstanceInstanceSecurityGroupF0E2D5BE": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "vpc/Instance/InstanceSecurityGroup",
+    "GroupDescription": "ec2-instance/Instance/InstanceSecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -259,10 +259,19 @@
       "IpProtocol": "-1"
      }
     ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "from 0.0.0.0/0:80",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/Instance"
+      "Value": "ec2-instance/Instance"
      }
     ],
     "VpcId": {
@@ -270,33 +279,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/Instance/InstanceSecurityGroup/Resource"
-   }
-  },
-  "InstanceInstanceRoleE9785DE5": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "ec2.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "vpc/Instance"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "vpc/Instance/InstanceRole/Resource"
+    "aws:cdk:path": "ec2-instance/Instance/InstanceSecurityGroup/Resource"
    }
   },
   "InstanceInstanceProfileAB5AEF02": {
@@ -304,12 +287,12 @@
    "Properties": {
     "Roles": [
      {
-      "Ref": "InstanceInstanceRoleE9785DE5"
+      "Ref": "InstanceSSMCBFA3CF0"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/Instance/InstanceProfile"
+    "aws:cdk:path": "ec2-instance/Instance/InstanceProfile"
    }
   },
   "InstanceC1063A87": {
@@ -344,18 +327,18 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "vpc/Instance"
+      "Value": "ec2-instance/Instance"
      }
     ],
     "UserData": {
-     "Fn::Base64": "#!/bin/bash"
+     "Fn::Base64": "#!/bin/bash\nsudo yum update -y\nsudo yum install -y httpd\nsudo systemctl start httpd\nsudo systemctl enable httpd\nsudo echo 'Hola Mundo!' > /var/www/html/index.html"
     }
    },
    "DependsOn": [
-    "InstanceInstanceRoleE9785DE5"
+    "InstanceSSMCBFA3CF0"
    ],
    "Metadata": {
-    "aws:cdk:path": "vpc/Instance/Resource"
+    "aws:cdk:path": "ec2-instance/Instance/Resource"
    }
   },
   "CDKMetadata": {
@@ -364,7 +347,7 @@
     "Analytics": "v2:deflate64:H4sIAAAAAAAA/11O0WqDQBD8lryf12qh0MfgQ8jboSWvZd1syDa6F+72EBH/vWhiLX2a2ZlZZgqbv+c230EfMzzfspYbO9YKeDPQx6+RsLDj6Y6mvMjJlcalpmWsUyOks7axyielT2ha2vRN28fokUHZy294JkdRCkJ6AKUehmfN89qrAl47EjVHiQqCZGrCFFiHQ/DpvjT9F9boZBg6O1b+sWjF1XbBX7ilaTIVRZ8CLq6DAB0pheXlj1F6OfM8fzJu0KuXlzf7YYvX3XdkzkIS5Y5s9cAfnKpFTFYBAAA="
    },
    "Metadata": {
-    "aws:cdk:path": "vpc/CDKMetadata/Default"
+    "aws:cdk:path": "ec2-instance/CDKMetadata/Default"
    },
    "Condition": "CDKMetadataAvailable"
   }
