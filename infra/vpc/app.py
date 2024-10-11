@@ -63,6 +63,10 @@ class Ec2VpcStack(Stack):
             ec2.Peer.any_ipv4(),
             ec2.Port.tcp(80)
         )
+        instance.connections.allow_from(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(22)
+        )
 app = App()
 Ec2VpcStack(app, "ec2-instance")
 app.synth()
