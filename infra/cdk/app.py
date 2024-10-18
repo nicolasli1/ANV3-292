@@ -6,6 +6,7 @@ from constructs import Construct
 from aws_cdk import Duration
 from aws_cdk import (
     aws_ec2 as ec2,
+    aws_iam as iam,
     aws_apigateway as api_g,
     aws_lambda as lb,
     App,
@@ -30,6 +31,48 @@ class Ec2VpcStack(Stack):
             ],
         )
 
+        # AMI
+        # Se selecciona la ultima version de Amazon Linux 2 
+        amzn_linux = ec2.MachineImage.latest_amazon_linux(
+            generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+            edition=ec2.AmazonLinuxEdition.STANDARD,
+            virtualization=ec2.AmazonLinuxVirt.HVM,
+            storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE
+            )
+
+        
+        role = iam.Role(self, "InstanceSSM", assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
+        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonSSMManagedInstanceCore"))
+
+
+        user_data = ec2.UserData.for_linux()
+
+        user_data.add_commands(
+            "sudo yum update -y",
+            "sudo yum install -y httpd",
+            "sudo systemctl start httpd",
+            "sudo systemctl enable httpd",
+            "sudo echo 'Hola Mundo!' > /var/www/html/index.html"
+        )
+
+
+        instance = ec2.Instance(self, "Instance",
+            instance_type=ec2.InstanceType("t2.micro"),
+            vpc = vpc,
+            machine_image=amzn_linux,
+            role=role,
+            user_data=user_data
+            )
+        
+        instance.connections.allow_from(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(80)
+        )
+
+        instance.connections.allow_from(
+            ec2.Peer.any_ipv4(),
+            ec2.Port.tcp(22)
+        )
 
 class MiPrimerAPI(Stack):
 
