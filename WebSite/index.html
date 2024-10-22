@@ -34,7 +34,7 @@
     <script>
         document.getElementById('getItemsBtn').addEventListener('click', async () => {
             try {
-                const response = await fetch('https://g8mh0ml067.execute-api.us-west-2.amazonaws.com/prod/items');
+                const response = await fetch('https://cdd4pz8hgk.execute-api.us-east-1.amazonaws.com/prod/items');
                 if (!response.ok) throw new Error('Error en la petición de items');
                 const data = await response.json();
                 document.getElementById('output').innerText = JSON.stringify(data, null, 2);
@@ -45,7 +45,7 @@
 
         document.getElementById('getMenuBtn').addEventListener('click', async () => {
             try {
-                const response = await fetch('https://g8mh0ml067.execute-api.us-west-2.amazonaws.com/prod/items/menu');
+                const response = await fetch('https://cdd4pz8hgk.execute-api.us-east-1.amazonaws.com/prod/menu');
                 if (!response.ok) throw new Error('Error en la petición del menú');
                 const data = await response.json();
                 document.getElementById('output').innerText = JSON.stringify(data, null, 2);

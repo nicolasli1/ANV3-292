@@ -52,12 +52,12 @@ class Ec2VpcStack(Stack):
 
         user_data = ec2.UserData.for_linux()
 
-        entofile_path = '../../WebSite/index.html'
-        file_content = ''
-        
-        with open(entofile_path, 'r') as file:
+        entofile_path = "../../WebSite/index.html"
+        file_content = ""
+
+        with open(entofile_path, "r") as file:
             line = file.readline()
-            
+
             while line:
                 file_content += line
                 line = file.readline()
@@ -67,7 +67,9 @@ class Ec2VpcStack(Stack):
             "sudo yum install -y httpd",
             "sudo systemctl start httpd",
             "sudo systemctl enable httpd",
-            f"sudo echo \"{file_content}\"> /var/www/html/index.html",
+            "sudo remove /var/www/html/index.html",
+            "sudo touch /var/www/html/index.html",
+            f'sudo echo "{file_content}"> /var/www/html/index.html',
         )
 
         instance = ec2.Instance(
@@ -153,7 +155,6 @@ class MiPrimerAPI(Stack):
             "POST",
             integration_fn_post_order,
         )
-
 
 
 app = App()
