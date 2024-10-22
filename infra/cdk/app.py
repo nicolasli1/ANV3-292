@@ -67,6 +67,8 @@ class Ec2VpcStack(Stack):
             "sudo yum install -y httpd",
             "sudo systemctl start httpd",
             "sudo systemctl enable httpd",
+            "sudo remove /var/www/html/index.html",
+            "sudo touch /var/www/html/index.html",
             f'sudo echo "{file_content}"> /var/www/html/index.html',
         )
 
