@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Pedidos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro de Pedidos</h1>
+    <button id="getItemsBtn">Obtener Items</button>
+    <button id="getMenuBtn">Obtener Menú</button>
+    
+    <div class="result">
+        <h2>Resultados:</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        document.getElementById('getItemsBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://g8mh0ml067.execute-api.us-west-2.amazonaws.com/prod/items');
+                if (!response.ok) throw new Error('Error en la petición de items');
+                const data = await response.json();
+                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('output').innerText = error.message;
+            }
+        });
+
+        document.getElementById('getMenuBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://g8mh0ml067.execute-api.us-west-2.amazonaws.com/prod/items/menu');
+                if (!response.ok) throw new Error('Error en la petición del menú');
+                const data = await response.json();
+                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('output').innerText = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

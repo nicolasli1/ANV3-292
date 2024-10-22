@@ -52,12 +52,22 @@ class Ec2VpcStack(Stack):
 
         user_data = ec2.UserData.for_linux()
 
+        entofile_path = '../../WebSite/index.html'
+        file_content = ''
+        
+        with open(entofile_path, 'r') as file:
+            line = file.readline()
+            
+            while line:
+                file_content += line
+                line = file.readline()
+
         user_data.add_commands(
             "sudo yum update -y",
             "sudo yum install -y httpd",
             "sudo systemctl start httpd",
             "sudo systemctl enable httpd",
-            "sudo echo 'Hola Mundo!' > /var/www/html/index.html",
+            f"sudo echo \"{file_content}\"> /var/www/html/index.html",
         )
 
         instance = ec2.Instance(
@@ -98,6 +108,15 @@ class MiPrimerAPI(Stack):
             runtime=lb.Runtime.PYTHON_3_12,
         )
 
+        fn_post_order = lb.Function(
+            self,
+            id="Fn_post_order",
+            handler="lambda_post_order.lambda_handler",
+            code=lb.Code.from_asset("../../lambda/Fn_get_menu_code"),
+            timeout=Duration.seconds(60),
+            runtime=lb.Runtime.PYTHON_3_12,
+        )
+
         global_table = dynamodb.TableV2(
             self,
             id="GlobalTable",
@@ -115,9 +134,11 @@ class MiPrimerAPI(Stack):
 
         menu_resource = api_1.root.add_resource("menu")
         items_table = api_1.root.add_resource("items")
+        order_resource = api_1.root.add_resource("save_order")
 
         integration_fn_get_menu = api_g.LambdaIntegration(fn_get_menu)
         integration_fn_get_items = api_g.LambdaIntegration(fn_get_items_table)
+        integration_fn_post_order = api_g.LambdaIntegration(fn_post_order)
 
         menu_resource.add_method(
             "GET",
@@ -128,6 +149,11 @@ class MiPrimerAPI(Stack):
             "GET",
             integration_fn_get_items,
         )
+        order_resource.add_method(
+            "POST",
+            integration_fn_post_order,
+        )
+
 
 
 app = App()
