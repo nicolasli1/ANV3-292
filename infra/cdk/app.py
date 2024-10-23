@@ -3,13 +3,14 @@ import os.path
 import aws_cdk as cdk
 
 from constructs import Construct
-from aws_cdk import Duration
+from aws_cdk import Duration, RemovalPolicy
 from aws_cdk import (
     aws_ec2 as ec2,
     aws_iam as iam,
     aws_apigateway as api_g,
     aws_lambda as lb,
     aws_dynamodb as dynamodb,
+    aws_s3 as s3,
     App,
     Stack,
 )
@@ -130,8 +131,30 @@ class MiPrimerAPI(Stack):
         )
 
 
+class MyWebsiteS3(Stack):
+
+    def __init__(self, scope: Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        bucket = s3.Bucket(
+            self,
+            id="Bucker-292",
+            public_read_access=True,
+            auto_delete_objects=True,
+            block_public_access=s3.BlockPublicAccess(
+                block_public_acls=False,
+                ignore_public_acls=False,
+                restrict_public_buckets=False,
+                block_public_policy=False,
+            ),
+            removal_policy=RemovalPolicy.DESTROY,
+        )
+
+
+
 app = App()
 Ec2VpcStack(app, "vpc")
 MiPrimerAPI(app, "mi-api")
+MyWebsiteS3(app, "my-website-s3")
 
 app.synth()
