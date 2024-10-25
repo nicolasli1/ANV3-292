@@ -1,5 +1,6 @@
 from os import path
 import os.path
+
 import aws_cdk as cdk
 
 from constructs import Construct
@@ -10,7 +11,10 @@ from aws_cdk import (
     aws_apigateway as api_g,
     aws_lambda as lb,
     aws_dynamodb as dynamodb,
+    aws_cloudfront as cf,
+    aws_cloudfront_origins as origins,
     aws_s3 as s3,
+    aws_s3_deployment as s3_deployment,
     App,
     Stack,
 )
@@ -150,6 +154,31 @@ class MyWebsiteS3(Stack):
             removal_policy=RemovalPolicy.DESTROY,
         )
 
+        s3_deployment.BucketDeployment(
+            self,
+            id="DeploymentS3",
+            sources=[s3_deployment.Source.asset("../../web/")],
+            destination_bucket=bucket,
+        )
+
+        distribution = cf.CloudFrontWebDistribution(
+            self,
+            id="MyDistribution-292",
+            origin_configs=[
+                cf.SourceConfiguration(
+                    s3_origin_source=cf.S3OriginConfig(s3_bucket_source=bucket),
+                    behaviors=[cf.Behavior(is_default_behavior=True)],
+                )
+            ],
+            error_configurations=[
+                cf.CfnDistribution.CustomErrorResponseProperty(
+                    error_code=404, response_code=404, response_page_path="/404.html"
+                ),
+                cf.CfnDistribution.CustomErrorResponseProperty(
+                    error_code=403, response_code=403, response_page_path="/404.html"
+                ),
+            ],
+        )
 
 
 app = App()
