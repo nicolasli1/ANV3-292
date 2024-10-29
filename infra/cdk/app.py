@@ -1,7 +1,7 @@
+import base64
 from os import path
 import os.path
 import aws_cdk as cdk
-
 from constructs import Construct
 from aws_cdk import Duration
 from aws_cdk import (
@@ -11,7 +11,7 @@ from aws_cdk import (
     aws_lambda as lb,
     aws_dynamodb as dynamodb,
     App,
-    Stack,
+    Stack
 )
 
 
@@ -51,23 +51,22 @@ class Ec2VpcStack(Stack):
         )
 
         user_data = ec2.UserData.for_linux()
+        # Read and encode the local HTML file content
+        html_file_path = '../../WebSite/index.html'
+         
+        with open(html_file_path, 'r') as file:
+            file_content = file.read()
 
-        entofile_path = '../../WebSite/index.html'
-        file_content = ''
-        
-        with open(entofile_path, 'r') as file:
-            line = file.readline()
-            
-            while line:
-                file_content += line
-                line = file.readline()
+        # Encode the file content in base64 to handle multi-line content
+        encoded_content = base64.b64encode(file_content.encode("utf-8")).decode("utf-8")
 
         user_data.add_commands(
             "sudo yum update -y",
             "sudo yum install -y httpd",
             "sudo systemctl start httpd",
             "sudo systemctl enable httpd",
-            f"sudo echo \"{file_content}\"> /var/www/html/index.html",
+           # Decode base64 content and write it to index.html
+            f"echo {encoded_content} | base64 -d | sudo tee /var/www/html/index.html > /dev/null"
         )
 
         instance = ec2.Instance(
@@ -79,8 +78,9 @@ class Ec2VpcStack(Stack):
             role=role,
             user_data=user_data,
         )
+        instance.connections.allow_from_any_ipv4(ec2.Port.tcp(80), "Allow HTTP")
 
-        instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(80))
+        #instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(80))
 
         instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(22))
 
@@ -129,8 +129,10 @@ class MiPrimerAPI(Stack):
         )
 
         global_table.grant_full_access(fn_get_items_table)
-
-        api_1 = api_g.RestApi(self, id="Class-229", rest_api_name="Api-Anv3-292")
+        global_table.grant_write_data(fn_post_order)
+        api_1 = api_g.RestApi(self, id="Class-229", 
+                              rest_api_name="Api-Anv3-292",            
+                    );          
 
         menu_resource = api_1.root.add_resource("menu")
         items_table = api_1.root.add_resource("items")
@@ -149,12 +151,11 @@ class MiPrimerAPI(Stack):
             "GET",
             integration_fn_get_items,
         )
+        
         order_resource.add_method(
             "POST",
             integration_fn_post_order,
         )
-
-
 
 app = App()
 Ec2VpcStack(app, "vpc")
