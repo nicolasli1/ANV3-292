@@ -1,11 +1,18 @@
 import json
 import boto3
+from decimal import Decimal
 
+   # Function to convert Decimal to int/float for JSON serialization
+def decimal_default(obj):
+    if isinstance(obj, Decimal):
+        # Convert Decimal to float or int based on your data requirements
+        return int(obj) if obj % 1 == 0 else float(obj)
+    raise TypeError
 def lambda_handler(event, context):
     # Inicializa el cliente de DynamoDB
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('My_primera_global_table_292')
-    
+   
     # Recupera todos los elementos de la tabla
     try:
         response = table.scan()
@@ -18,7 +25,7 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 200,
-            'body': json.dumps(items)
+            'body': json.dumps(items, default=decimal_default)  # Use custom serialization
         }
         
     except Exception as e:
