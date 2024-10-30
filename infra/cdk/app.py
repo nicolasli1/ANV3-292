@@ -130,9 +130,14 @@ class MiPrimerAPI(Stack):
 
         global_table.grant_full_access(fn_get_items_table)
         global_table.grant_write_data(fn_post_order)
-        api_1 = api_g.RestApi(self, id="Class-229", 
-                              rest_api_name="Api-Anv3-292",            
-                    );          
+        api_1 = api_g.RestApi(
+            self,
+            id="Class-229",
+            rest_api_name="Api-Anv3-292",
+            default_cors_preflight_options=api_g.CorsOptions(
+                allow_methods=['GET', 'POST'],
+                allow_origins=api_g.Cors.ALL_ORIGINS)
+        )
 
         menu_resource = api_1.root.add_resource("menu")
         items_table = api_1.root.add_resource("items")

@@ -43,6 +43,11 @@ def lambda_handler(event, context):
         # Prepare the successful response
         return {
             'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST'
+            },
             'body': json.dumps({"message": "Record created successfully"})
         }
     except ClientError as e:
