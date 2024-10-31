@@ -43,7 +43,7 @@
 <div id="result" class="result-table"></div>
 
 <script>
-    const API_BASE_URL = 'https://pmw9kjcq67.execute-api.us-east-1.amazonaws.com/prod'; // Replace with your actual API base URL
+    const API_BASE_URL = 'https://wh8s33h0w8.execute-api.us-east-1.amazonaws.com/prod'; // Replace with your actual API base URL
     async function createRecord() {
         const pk = document.getElementById('pk').value;
         const name = document.getElementById('name').value;
@@ -54,10 +54,7 @@
         try {
             const response = await fetch(`${API_BASE_URL}/save_order`, {
                 method: 'POST', 
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
 
             const result = await response.json();
@@ -70,7 +67,7 @@
     async function getRecords() {
         try {
             const response = await fetch(`${API_BASE_URL}/items`, {
-                method: 'GET'
+                method: 'GET',
             });
             const result = await response.json();
 
@@ -99,7 +96,7 @@
 
         items.forEach(item => {
             const row = table.insertRow();
-            row.insertCell().textContent = item.pk;
+            row.insertCell().textContent = item.id_pk;
             row.insertCell().textContent = item.name;
             row.insertCell().textContent = item.cantidad;
         });

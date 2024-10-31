@@ -16,6 +16,10 @@ def lambda_handler(event, context):
     except KeyError:
         return {
             'statusCode': 400,
+            'headers': {
+                'Access-Control-Allow-Origin': '*', 
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
+            },
             'body': json.dumps('Error: Request body is required.')
         }
     
@@ -27,6 +31,10 @@ def lambda_handler(event, context):
     if not name or not cantidad:
         return {
             'statusCode': 400,
+            'headers': {
+                'Access-Control-Allow-Origin': '*', 
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
+            },
             'body': json.dumps(f'Error: name and cantidad are required.')
         }
     
@@ -43,11 +51,19 @@ def lambda_handler(event, context):
         # Prepare the successful response
         return {
             'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
+            },
             'body': json.dumps({"message": "Record created successfully"})
         }
     except ClientError as e:
         # Handle DynamoDB errors
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Origin': '*', 
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
+            },
             'body': json.dumps(f'Error inserting item into DynamoDB: {str(e)}')
         }
