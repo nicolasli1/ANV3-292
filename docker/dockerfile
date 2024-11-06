@@ -9,4 +9,6 @@ WORKDIR /workspace
 
 COPY server.mjs .
 
+EXPOSE 80
+
 CMD ["node","server.mjs"]
