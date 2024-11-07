@@ -1,14 +1,21 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y zip nano wget curl git nodejs
-RUN curl -sL https://npmjs.org/install.sh | bash -
+# Install dependencies
+RUN apt-get update && apt-get install -y zip nano wget curl git
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
-COPY app.txt /user/
-
+# Set the working directory
 WORKDIR /workspace
 
+# Copy application files
 COPY server.mjs .
 
-EXPOSE 80
+# Expose the port that the server will use
+EXPOSE 3000
 
-CMD ["node","server.mjs"]
+# Start the server
+CMD ["node", "server.mjs"]
+
+
+
