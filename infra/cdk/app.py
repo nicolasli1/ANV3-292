@@ -129,7 +129,8 @@ class MiPrimerAPI(Stack):
         )
 
         global_table.grant_full_access(fn_get_items_table)
-        global_table.grant_write_data(fn_post_order)
+        global_table.grant_full_access(fn_post_order)
+        
         api_1 = api_g.RestApi(
             self,
             id="Class-229",
