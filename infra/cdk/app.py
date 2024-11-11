@@ -11,9 +11,8 @@ from aws_cdk import (
     aws_lambda as lb,
     aws_dynamodb as dynamodb,
     App,
-    Stack
+    Stack,
 )
-
 
 class Ec2VpcStack(Stack):
 
@@ -52,9 +51,9 @@ class Ec2VpcStack(Stack):
 
         user_data = ec2.UserData.for_linux()
         # Read and encode the local HTML file content
-        html_file_path = '../../WebSite/index.html'
-         
-        with open(html_file_path, 'r') as file:
+        html_file_path = "../../WebSite/index.html"
+
+        with open(html_file_path, "r") as file:
             file_content = file.read()
 
         # Encode the file content in base64 to handle multi-line content
@@ -65,8 +64,8 @@ class Ec2VpcStack(Stack):
             "sudo yum install -y httpd",
             "sudo systemctl start httpd",
             "sudo systemctl enable httpd",
-           # Decode base64 content and write it to index.html
-            f"echo {encoded_content} | base64 -d | sudo tee /var/www/html/index.html > /dev/null"
+            # Decode base64 content and write it to index.html
+            f"echo {encoded_content} | base64 -d | sudo tee /var/www/html/index.html > /dev/null",
         )
 
         instance = ec2.Instance(
@@ -80,7 +79,7 @@ class Ec2VpcStack(Stack):
         )
         instance.connections.allow_from_any_ipv4(ec2.Port.tcp(80), "Allow HTTP")
 
-        #instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(80))
+        # instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(80))
 
         instance.connections.allow_from(ec2.Peer.any_ipv4(), ec2.Port.tcp(22))
 
@@ -130,16 +129,12 @@ class MiPrimerAPI(Stack):
 
         global_table.grant_full_access(fn_get_items_table)
         global_table.grant_full_access(fn_post_order)
-        
-        api_1 = api_g.RestApi(
-            self,
-            id="Class-229",
-            rest_api_name="Api-Anv3-292",
-            default_cors_preflight_options=api_g.CorsOptions(
-                allow_methods=['GET', 'POST'],
-                allow_origins=api_g.Cors.ALL_ORIGINS)
-        )
 
+        api_1 = api_g.RestApi(self,id="Class-229", rest_api_name="Api-Anv3-292")
+           # default_cors_preflight_options=api_g.CorsOptions(
+            #   allow_methods=["GET", "POST"], allow_origins=api_g.Cors.ALL_ORIGINS
+            #),
+    
         menu_resource = api_1.root.add_resource("menu")
         items_table = api_1.root.add_resource("items")
         order_resource = api_1.root.add_resource("save_order")
@@ -148,19 +143,36 @@ class MiPrimerAPI(Stack):
         integration_fn_get_items = api_g.LambdaIntegration(fn_get_items_table)
         integration_fn_post_order = api_g.LambdaIntegration(fn_post_order)
 
-        menu_resource.add_method(
-            "GET",
-            integration_fn_get_menu,
-        )
+        menu_resource.add_method("GET", integration_fn_get_menu)
+        items_table.add_method("GET", integration_fn_get_items)
+        order_resource.add_method("POST", integration_fn_post_order)
 
         items_table.add_method(
-            "GET",
-            integration_fn_get_items,
-        )
-        
-        order_resource.add_method(
-            "POST",
-            integration_fn_post_order,
+            "OPTIONS",
+            api_g.MockIntegration(
+                passthrough_behavior=api_g.PassthroughBehavior.NEVER,
+                request_templates={"application/json": '{"statusCode": 200}'},
+                integration_responses=[
+                    api_g.IntegrationResponse(
+                        status_code="200",
+                        response_parameters={
+                            "method.response.header.Access-Control-Allow-Origin": "'*'",
+                            "method.response.header.Access-Control-Allow-Methods": "'GET, POST, PUT, OPTIONS'",
+                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type'",
+                        },
+                    )
+                ],
+            ),
+            method_responses=[
+                api_g.MethodResponse(
+                    status_code="200",
+                    response_parameters={
+                        "method.response.header.Access-Control-Allow-Origin": True,
+                        "method.response.header.Access-Control-Allow-Methods": True,
+                        "method.response.header.Access-Control-Allow-Headers": True,
+                    },
+                )
+            ],
         )
 
 app = App()
