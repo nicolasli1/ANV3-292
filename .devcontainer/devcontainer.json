@@ -12,7 +12,8 @@
                 "rangav.vscode-thunder-client",
                 "ms-python.python",
                 "mikoz.black-py",
-                "hashicorp.terraform"
+                "hashicorp.terraform",
+                "ms-azuretools.vscode-azurefunctions"
             ],
             "settings": {
                 "extensions.verifySignature": false,
