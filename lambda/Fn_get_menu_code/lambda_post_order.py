@@ -42,7 +42,7 @@ def lambda_handler(event, context):
     try:
         table.put_item(
             Item={
-                'id_pk': identity,
+                'pk': identity,
                 'name': name,
                 'cantidad': cantidad
             }

@@ -43,13 +43,13 @@
 <div id="result" class="result-table"></div>
 
 <script>
-    const API_BASE_URL = 'https://wh8s33h0w8.execute-api.us-east-1.amazonaws.com/prod'; // Replace with your actual API base URL
+    const API_BASE_URL = 'https://q1t1cb85x8.execute-api.us-east-1.amazonaws.com/prod'; // Replace with your actual API base URL
     async function createRecord() {
         const pk = document.getElementById('pk').value;
         const name = document.getElementById('name').value;
         const cantidad = document.getElementById('cantidad').value;
 
-        const data = { pk: parseInt(pk), name, cantidad: parseInt(cantidad) };
+        const data = { pk, name, cantidad };
 
         try {
             const response = await fetch(`${API_BASE_URL}/save_order`, {
