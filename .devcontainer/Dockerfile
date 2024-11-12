@@ -17,7 +17,11 @@ RUN wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_am
     && mv terraform /usr/local/bin/ 
 
 
-RUN npm install -g aws-cdk
+# deploy azure fuction from extensions
+
+RUN apt-get update && apt-get install -y libicu-dev
+
+RUN npm install -g aws-cdk azure-functions-core-tools@4 --unsafe-perm true
 
 WORKDIR /workspace
 
