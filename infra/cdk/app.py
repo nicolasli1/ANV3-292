@@ -192,7 +192,7 @@ class MiPrimerAPI(Stack):
         # El order_resource aceptará solicitudes POST y activará la función Lambda fn_post_order.
         menu_resource.add_method("GET", integration_fn_get_menu)
         items_table.add_method("GET", integration_fn_get_items)
-        order_resource.add_method("POST", integration_fn_post_order)
+        items_table.add_method("POST", integration_fn_post_order,authorization_type=api_g.AuthorizationType.NONE)
 
         # Esta parte agrega soporte para CORS (Intercambio de Recursos de Origen Cruzado) para el recurso items. 
         # CORS permite que la API sea accesible desde páginas web alojadas en diferentes dominios.
@@ -200,6 +200,7 @@ class MiPrimerAPI(Stack):
         # Utiliza una Integración Simulada (Mock) para simular una respuesta con el estado 200 y establece encabezados 
         # como Access-Control-Allow-Origin, Access-Control-Allow-Methods y Access-Control-Allow-Headers 
         # para permitir solicitudes de origen cruzado.
+        # Add CORS for the save_order resource (POST)
         items_table.add_method(
             "OPTIONS",
             api_g.MockIntegration(
@@ -227,6 +228,35 @@ class MiPrimerAPI(Stack):
                 )
             ],
         )
+        
+      
+        # order_resource.add_method(
+        #     "OPTIONS",
+        #     api_g.MockIntegration(
+        #         passthrough_behavior=api_g.PassthroughBehavior.NEVER,
+        #         request_templates={"application/json": '{"statusCode": 200}'},
+        #         integration_responses=[
+        #             api_g.IntegrationResponse(
+        #                 status_code="200",
+        #                 response_parameters={
+        #                     "method.response.header.Access-Control-Allow-Origin": "'*'",
+        #                     "method.response.header.Access-Control-Allow-Methods": "'GET, POST, OPTIONS'",
+        #                     "method.response.header.Access-Control-Allow-Headers": "'Content-Type'",
+        #                 },
+        #             )
+        #         ],
+        #     ),
+        #     method_responses=[
+        #         api_g.MethodResponse(
+        #             status_code="200",
+        #             response_parameters={
+        #                 "method.response.header.Access-Control-Allow-Origin": True,
+        #                 "method.response.header.Access-Control-Allow-Methods": True,
+        #                 "method.response.header.Access-Control-Allow-Headers": True,
+        #             },
+        #         )
+        #     ],
+        # )
 
 # Esta parte crea un objeto App, que es la raíz de la aplicación CDK.
 # Luego, instancia los stacks Ec2VpcStack y MiPrimerAPI, que definen la infraestructura EC2 y la API Gateway, respectivamente.
