@@ -228,36 +228,6 @@ class MiPrimerAPI(Stack):
                 )
             ],
         )
-        
-      
-        # order_resource.add_method(
-        #     "OPTIONS",
-        #     api_g.MockIntegration(
-        #         passthrough_behavior=api_g.PassthroughBehavior.NEVER,
-        #         request_templates={"application/json": '{"statusCode": 200}'},
-        #         integration_responses=[
-        #             api_g.IntegrationResponse(
-        #                 status_code="200",
-        #                 response_parameters={
-        #                     "method.response.header.Access-Control-Allow-Origin": "'*'",
-        #                     "method.response.header.Access-Control-Allow-Methods": "'GET, POST, OPTIONS'",
-        #                     "method.response.header.Access-Control-Allow-Headers": "'Content-Type'",
-        #                 },
-        #             )
-        #         ],
-        #     ),
-        #     method_responses=[
-        #         api_g.MethodResponse(
-        #             status_code="200",
-        #             response_parameters={
-        #                 "method.response.header.Access-Control-Allow-Origin": True,
-        #                 "method.response.header.Access-Control-Allow-Methods": True,
-        #                 "method.response.header.Access-Control-Allow-Headers": True,
-        #             },
-        #         )
-        #     ],
-        # )
-
 # Esta parte crea un objeto App, que es la raíz de la aplicación CDK.
 # Luego, instancia los stacks Ec2VpcStack y MiPrimerAPI, que definen la infraestructura EC2 y la API Gateway, respectivamente.
 # Finalmente, llama a app.synth() para sintetizar (generar) la plantilla de CloudFormation, que es el resultado final que AWS utiliza para desplegar la infraestructura.
