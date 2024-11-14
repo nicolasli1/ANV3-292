@@ -3,8 +3,6 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y zip nano wget curl git nodejs
 RUN curl -sL https://npmjs.org/install.sh | bash -
 
-COPY app.txt /user/
-
 WORKDIR /workspace
 
 COPY server.mjs .
