@@ -23,7 +23,11 @@ RUN wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_am
 
 RUN apt-get update && apt-get install -y libicu-dev
 
+RUN npm cache clean --force
+
 RUN npm install -g aws-cdk azure-functions-core-tools@4 --unsafe-perm true
+
+RUN npm install aws-sdk
 
 WORKDIR /workspace
 

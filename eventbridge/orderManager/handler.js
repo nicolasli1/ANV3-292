@@ -1,6 +1,6 @@
-import aws_cdk as cdk;
+const AWS = require('aws-sdk');
 
-const eventbridge = new cdk.EventBridge();
+const eventbridge = new AWS.EventBridge();
 
 function putEventInEventBridge(orderDetails)
 {
