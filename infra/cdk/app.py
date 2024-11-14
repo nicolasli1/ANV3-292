@@ -253,7 +253,7 @@ class ecsCluster(Stack):
 
         # Agregar un contenedor a la definición de tarea
         container = task_definition.add_container("AppContainer",
-            image=ecs.ContainerImage.from_registry("nicolasli1/image292:latest"),
+            image=ecs.ContainerImage.from_registry("fermec28/express-app:latest"),
             logging=ecs.LogDrivers.aws_logs(stream_prefix="myapp", log_retention=logs.RetentionDays.ONE_WEEK),
             #port_mappings=[ecs.PortMapping(container_port=3000)],
             environment={"PORT":"80"},
