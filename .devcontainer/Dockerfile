@@ -25,9 +25,7 @@ RUN apt-get update && apt-get install -y libicu-dev
 
 RUN npm cache clean --force
 
-RUN npm install -g aws-cdk azure-functions-core-tools@4 --unsafe-perm true
-
-RUN npm install aws-sdk
+RUN npm install -g aws-cdk azure-functions-core-tools@4 @aws-sdk/client-s3 --unsafe-perm true
 
 WORKDIR /workspace
 

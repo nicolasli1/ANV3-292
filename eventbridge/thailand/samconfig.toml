@@ -1,10 +1,8 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "sam-eventbridge-order"
+stack_name = "sam-app"
 resolve_s3 = true
-s3_prefix = "sam-eventbridge-order"
+s3_prefix = "sam-app"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
-confirm_changeset = true
-disable_rollback = true

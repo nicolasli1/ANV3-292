@@ -1,10 +1,8 @@
-const AWS = require('aws-sdk');
+const { EventBridgeClient, PutEventsCommand } = require('@aws-sdk/client-eventbridge');
 
-const eventbridge = new AWS.EventBridge();
+const client = new EventBridgeClient({ region: 'us-east-1' }); // Set the region
 
-function putEventInEventBridge(orderDetails)
-{
-
+async function putEventInEventBridge(orderDetails) {
   const detail = {
     restaurantName: orderDetails.restaurantName,
     order: orderDetails.order,
@@ -12,7 +10,7 @@ function putEventInEventBridge(orderDetails)
     amount: orderDetails.amount
   };
 
-  var params = {
+  const params = {
     Entries: [
       {
         Detail: JSON.stringify(detail),
@@ -23,20 +21,19 @@ function putEventInEventBridge(orderDetails)
   };
 
   console.log(params);
-  return eventbridge.putEvents(params).promise();
+  const command = new PutEventsCommand(params);
+  return await client.send(command);
 }
-exports.putOrder = async (event) =>
-{
+
+exports.putOrder = async (event) => {
   console.log('putOrder');
 
   const orderDetails = JSON.parse(event.body);
   const data = await putEventInEventBridge(orderDetails);
 
-  // console.log(data);
-
   return {
     statusCode: 200,
     body: JSON.stringify(orderDetails),
     headers: {}
-  }
-}
+  };
+};
