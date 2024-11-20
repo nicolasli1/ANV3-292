@@ -4,7 +4,6 @@ import os.path
 import aws_cdk as cdk
 
 
-
 from constructs import Construct
 from aws_cdk import Duration, RemovalPolicy
 import aws_cdk.aws_stepfunctions as sfn
@@ -22,6 +21,7 @@ from aws_cdk import (
     aws_s3_deployment as s3_deployment,
     aws_ecs as ecs,
     aws_logs as logs,
+    aws_wafv2 as waf,
     App,
     Stack,
 )
@@ -201,6 +201,52 @@ class MyWebsiteS3(Stack):
             destination_bucket=bucket,
         )
 
+        ipSet = waf.CfnIPSet(
+            self,
+            id="bloqueo ip y segmento de ip",
+            addresses=[
+                "103.10.10.10/32",
+                "45.238.182.251/32",
+                "186.155.18.40/32",
+                "181.32.182.68/32",
+            ],
+            ip_address_version="IPV4",
+            scope="CLOUDFRONT",
+            description="IpSet para bloquear ip en especifico y segmentos de red",
+            name="BlockIp",
+        )
+
+        RuleIpSet = waf.CfnWebACL.RuleProperty(
+            name="Rule_Block_ip_set",
+            priority=2,  # se evalua las diferentes reglas en funcion a la prioridad, todas las reglas deberian tener prioridades diferentes
+            action=waf.CfnWebACL.RuleActionProperty(block={}),
+            statement=waf.CfnWebACL.StatementProperty(
+                ip_set_reference_statement=waf.CfnWebACL.IPSetReferenceStatementProperty(
+                    arn=ipSet.attr_arn
+                )
+            ),
+            visibility_config=waf.CfnWebACL.VisibilityConfigProperty(
+                cloud_watch_metrics_enabled=True,
+                metric_name="metricas-ipset-rule",
+                sampled_requests_enabled=True,
+            ),
+        )
+
+        acl = waf.CfnWebACL(
+            self,
+            id="firewall",
+            default_action=waf.CfnWebACL.DefaultActionProperty(allow={}),
+            scope="CLOUDFRONT",
+            visibility_config=waf.CfnWebACL.VisibilityConfigProperty(
+                cloud_watch_metrics_enabled=True,
+                metric_name="metricas",
+                sampled_requests_enabled=True,
+            ),
+            name="Firewall-class",
+            description="corta descripcion",
+            rules=[RuleIpSet],
+        )
+
         distribution = cf.CloudFrontWebDistribution(
             self,
             id="MyDistribution-292",
@@ -218,6 +264,7 @@ class MyWebsiteS3(Stack):
                     error_code=403, response_code=403, response_page_path="/404.html"
                 ),
             ],
+            web_acl_id=acl.attr_arn,
         )
 
 
@@ -229,44 +276,53 @@ class ecsCluster(Stack):
         # Crear una VPC
         vpc = ec2.Vpc(self, "MyVpc", max_azs=2)
 
-
-        security_group = ec2.SecurityGroup(self, "ecs-fargte",
+        security_group = ec2.SecurityGroup(
+            self,
+            "ecs-fargte",
             vpc=vpc,
             description="Allow HTTP traffic on port 80",
-            allow_all_outbound=True  # Permitir todas las salidas
+            allow_all_outbound=True,  # Permitir todas las salidas
         )
         # Agregar una regla para permitir tráfico HTTP en el puerto 80 desde cualquier IP
         security_group.add_ingress_rule(
             ec2.Peer.any_ipv4(),  # Acepta tráfico desde cualquier IP (0.0.0.0/0)
             ec2.Port.tcp(80),  # Permitir tráfico en el puerto TCP 80 (HTTP)
-            "Allow HTTP traffic"
+            "Allow HTTP traffic",
         )
 
         # Crear un cluster ECS
         cluster = ecs.Cluster(self, "EcsCluster", vpc=vpc)
 
         # Crear la definición de la tarea ECS
-        task_definition = ecs.FargateTaskDefinition(self, "TaskDef",
+        task_definition = ecs.FargateTaskDefinition(
+            self,
+            "TaskDef",
             memory_limit_mib=512,  # 512 MB
             cpu=256,  # 0.25 vCPU
         )
 
         # Agregar un contenedor a la definición de tarea
-        container = task_definition.add_container("AppContainer",
+        container = task_definition.add_container(
+            "AppContainer",
             image=ecs.ContainerImage.from_registry("nicolasli1/image292:latest"),
-            logging=ecs.LogDrivers.aws_logs(stream_prefix="myapp", log_retention=logs.RetentionDays.ONE_WEEK),
-            #port_mappings=[ecs.PortMapping(container_port=3000)],
-            environment={"PORT":"80"},
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix="myapp", log_retention=logs.RetentionDays.ONE_WEEK
+            ),
+            # port_mappings=[ecs.PortMapping(container_port=3000)],
+            environment={"PORT": "80"},
         )
 
         # Crear el servicio ECS
-        ecs.FargateService(self, "FargateService",
+        ecs.FargateService(
+            self,
+            "FargateService",
             cluster=cluster,
             task_definition=task_definition,
             desired_count=1,  # Número de instancias del contenedor a ejecutar
             assign_public_ip=True,  # Asigna una IP pública para poder acceder desde Internet
-            security_groups=[security_group]
+            security_groups=[security_group],
         )
+
 
 app = App()
 Ec2VpcStack(app, "vpc")
