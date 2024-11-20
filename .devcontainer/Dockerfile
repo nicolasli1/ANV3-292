@@ -6,22 +6,10 @@ RUN apt-get install -y nano htop curl git wget unzip
 
 RUN pip install pandas==1.3.1
 
-RUN pip install aws-cdk-lib>=2.0.0 constructs>=10.0.0 boto3==1.34.125 black
-
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
-# Instala Terraform
-RUN wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip \
-    && unzip terraform_1.9.5_linux_amd64.zip \
-    && mv terraform /usr/local/bin/ 
-
-
-# deploy azure fuction from extensions
-
-RUN apt-get update && apt-get install -y libicu-dev
-
-RUN npm install -g aws-cdk azure-functions-core-tools@4 --unsafe-perm true
+RUN pip install aws-sam-cli
 
 WORKDIR /workspace
 
