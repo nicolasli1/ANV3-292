@@ -205,10 +205,11 @@ class MyWebsiteS3(Stack):
             self,
             id="bloqueo ip y segmento de ip",
             addresses=[
-                "103.10.10.10/32",
-                "45.238.182.251/32",
-                "186.155.18.40/32",
-                "181.32.182.68/32",
+                #"103.10.10.10/32",
+                "45.238.182.252/32",
+                # "186.155.18.40/32",
+                # "181.32.182.68/32",
+                # "181.32.182.0/24",
             ],
             ip_address_version="IPV4",
             scope="CLOUDFRONT",
@@ -218,8 +219,8 @@ class MyWebsiteS3(Stack):
 
         RuleIpSet = waf.CfnWebACL.RuleProperty(
             name="Rule_Block_ip_set",
-            priority=2,  # se evalua las diferentes reglas en funcion a la prioridad, todas las reglas deberian tener prioridades diferentes
-            action=waf.CfnWebACL.RuleActionProperty(block={}),
+            priority=102,  # se evalua las diferentes reglas en funcion a la prioridad, todas las reglas deberian tener prioridades diferentes
+            action=waf.CfnWebACL.RuleActionProperty(allow={}),
             statement=waf.CfnWebACL.StatementProperty(
                 ip_set_reference_statement=waf.CfnWebACL.IPSetReferenceStatementProperty(
                     arn=ipSet.attr_arn
@@ -232,10 +233,28 @@ class MyWebsiteS3(Stack):
             ),
         )
 
+        countryCodes = ["AR", "US", "ES"]
+
+        GeoRule = waf.CfnWebACL.RuleProperty(
+            name="Rule_Geo_match_property",
+            priority=101,
+            action=waf.CfnWebACL.RuleActionProperty(allow={}),
+            statement=waf.CfnWebACL.StatementProperty(
+                geo_match_statement=waf.CfnWebACL.GeoMatchStatementProperty(
+                    country_codes=countryCodes
+                )
+            ),
+            visibility_config=waf.CfnWebACL.VisibilityConfigProperty(
+                cloud_watch_metrics_enabled=True,
+                metric_name="metricas-Geo-rule",
+                sampled_requests_enabled=True,
+            ),
+        )
+
         acl = waf.CfnWebACL(
             self,
             id="firewall",
-            default_action=waf.CfnWebACL.DefaultActionProperty(allow={}),
+            default_action=waf.CfnWebACL.DefaultActionProperty(block={}),
             scope="CLOUDFRONT",
             visibility_config=waf.CfnWebACL.VisibilityConfigProperty(
                 cloud_watch_metrics_enabled=True,
@@ -244,7 +263,7 @@ class MyWebsiteS3(Stack):
             ),
             name="Firewall-class",
             description="corta descripcion",
-            rules=[RuleIpSet],
+            rules=[RuleIpSet,GeoRule],
         )
 
         distribution = cf.CloudFrontWebDistribution(
