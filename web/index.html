@@ -1,3 +1,65 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invocar API</title>
+</head>
+<body>
+    <h1>Invocar API</h1>
+    <button id="fetchButton">Obtener Datos</button>
+    <button id="postButton">Enviar Datos</button>
+    <div id="result"></div>
+
+    <script>
+        // Función para obtener datos con GET
+        document.getElementById('fetchButton').addEventListener('click', function() {
+            fetch('https://jw2jeuhc0j.execute-api.us-east-1.amazonaws.com/prod/items')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la red');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('result').innerText = JSON.stringify(data);
+                })
+                .catch(error => {
+                    console.error('Hubo un problema con la solicitud Fetch:', error);
+                    document.getElementById('result').innerText = 'Error al obtener los datos';
+                });
+        });
+
+        // Función para enviar datos con POST
+        document.getElementById('postButton').addEventListener('click', function() {
+            const data = { "id_pk": "Scrat" }; // Cambia esto según tu clave primaria
+
+            fetch('https://jw2jeuhc0j.execute-api.us-east-1.amazonaws.com/prod/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la red');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('result').innerText = JSON.stringify(data);
+            })
+            .catch(error => {
+                console.error('Hubo un problema con la solicitud Fetch:', error);
+                document.getElementById('result').innerText = 'Error al enviar los datos';
+            });
+        });
+    </script>
+</body>
+</html>
+=======
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -58,3 +120,4 @@
     </script>
 </body>
 </html>
+>>>>>>> 15d23314cab2f677b3611c126546172a2c44f826
